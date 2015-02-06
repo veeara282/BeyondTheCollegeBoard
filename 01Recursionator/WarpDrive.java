@@ -13,12 +13,16 @@ class WarpDrive {
 	System.out.println("F_10 = 55 = " + test.fib(10));
 	System.out.println();
 	testCassiniIdentity(test);
+	System.out.println();
+	testSqrt(36, test);
+	testSqrt(169, test);
+	testSqrt(452, test);
     }
 
     public static void testCassiniIdentity(hw1 test) {
 	System.out.println("Cassini identity:");
 	Random r = new Random();
-	int n = r.nextInt(50);
+	int n = r.nextInt(36);
 	int value, expected;
 	if (n % 2 == 1)
 	    expected = 1;
@@ -27,5 +31,10 @@ class WarpDrive {
 	value = test.fib(n)*test.fib(n) - test.fib(n+1)*test.fib(n-1);
 	System.out.println("(F_"+n+")^2 - (F_"+(n+1)+")(F_"+(n-1)+") " + 
 			   "= (-1)^" +(n-1) + ": " + (value == expected));
+    }
+
+    public static void testSqrt(double x, hw1 test) {
+	double got = test.sqrt(x), expected = Math.sqrt(x);
+	System.out.println("sqrt("+x+") = " + got + "\t" + expected + ", " + (got == expected));
     }
 }

@@ -28,10 +28,12 @@ public class Recursion implements hw1 {
 	else if (n < 0)
 	    throw new IllegalArgumentException("Invalid input: " + n);
 	else
-	    return qrooty(n, 1);
+	    return qrooty(n, n);
     }
 
     private double qrooty(double n, double guess) {
+	//	double error = guess * guess - n, tolerance = 0.1;
+	//	if (error < tolerance || error > -tolerance)
 	if (guess * guess == n)
 	    return guess;
 	else
