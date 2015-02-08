@@ -33,8 +33,8 @@ public class Recursion implements hw1 {
 
     private double qrooty(double n, double guess) {
 	System.out.println(guess+", "+Math.sqrt(n));
-        double error = guess * guess - n, tolerance = 1e-8 * n;
-	if (error < tolerance || error > -tolerance)
+        double error = guess * guess - n, tolerance = 1e-10 * n;
+	if (Math.abs(error) < tolerance)
 		    //	if (guess * guess == n)
 	    return guess;
 	else
