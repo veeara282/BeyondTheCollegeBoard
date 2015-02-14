@@ -25,13 +25,13 @@ public class KnightsTour {
     }
 
     public String toString(){
-	String ans = "\n";
+	StringBuilder ans = new StringBuilder("\n");
 	//build your knights tour here...
 	for (int[] row: board) {
 	    for (int cell: row) {
-		ans += cell + "\t";
+		ans.append(cell).append('\t');
 	    }
-	    ans += "\n";
+	    ans.append('\n');
 	}
 	return hide + clear + go(0,0) + ans + "\n" + show;
     }
