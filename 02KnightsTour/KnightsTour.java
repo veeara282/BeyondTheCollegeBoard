@@ -55,15 +55,14 @@ public class KnightsTour {
     }
     
     public void solve() {
-	/*	BitSet solutions = new BitSet(board.length * board.length);
+	/*BitSet solutions = new BitSet(board.length * board.length);
 	for (int x = 0; x < board.length; x++) {
 	    for (int y = 0; y < board.length; y++) {
 		solutions.set(x * board.length + y, solve(x, y));
 	    }
 	}
-	System.out.println(solutions.cardinality() + " solutions");
-	*/
-	if (solve(0,0)) System.out.println("solution (0, 0)");
+	System.out.println(solutions.cardinality() + " solutions");*/
+	if (solve(0,0)) System.out.println(this);
     }
 
     public boolean solve(int startx, int starty) {
@@ -71,8 +70,8 @@ public class KnightsTour {
     }
 		
     public boolean solve(int x, int y, int move) {
-       	System.out.println(this);
-       	wait(20);
+	//       	System.out.println(this);
+	//       	wait(20);
 	if (x >= 0 && x < board.length && y >= 0 && y < board.length) {
 	    if (board[x][y] == 0) {
 		board[x][y] = move;
