@@ -1,20 +1,5 @@
 public class NQueens {
 
-    public static void main(String[] args) {
-	int n;
-	try {
-	    n = Integer.parseInt(args[0]);
-	} catch(Exception e) {
-	    n = 6;
-	}
-        NQueens b = new NQueens(n);
-	if (b.solve())
-	    System.out.print(b);
-	else
-	    System.out.println("no solution");
-    }
-
-
     public String name() {
 	return "fitzgerald.aidan";
     }
@@ -23,14 +8,6 @@ public class NQueens {
 
     public NQueens(int size) {
 	board = new char[size][size];
-    }
-
-    public String toString() {
-	StringBuilder yolo = new StringBuilder();
-	for (char[] row: board) {
-	    yolo.append(row).append('\n');
-	}
-	return yolo.toString();
     }
 
     public boolean solve() {
@@ -44,6 +21,10 @@ public class NQueens {
     }
 
     private boolean solve(int x, int y, int n) {
+	// print
+	System.out.println(this);
+	wait(500);
+	// begin
 	if (inBounds(x, y)) {
 	    if (board[x][y] == ' ') {
 		board[x][y] = 'Q';
@@ -110,4 +91,37 @@ public class NQueens {
     private boolean inBounds(int x, int y) {
 	return x >= 0 && x < board.length && y >= 0 && y < board.length;
     }
+
+    // DISPLAYING
+
+    public String toString() {
+	StringBuilder yolo = new StringBuilder();
+	yolo.append(hide).append(clear).append(go(0,0));
+	for (char[] row: board) {
+	    yolo.append(row).append('\n');
+	}
+	return yolo.append(show).toString();
+	//return hide + clear + go(0,0) + ans + "\n" + show;
+
+    }
+
+    //constants for the class
+    //terminal specific character to clear screen , or hide/show cursor
+    final static String clear =  "\033[2J";
+    final static String hide =  "\033[?25l";
+    final static String show =  "\033[?25h";
+
+    //terminal specific character to move the cursor
+    private String go(int x,int y){
+	return ("\033[" + x + ";" + y + "H");
+    }
+ 
+    public void wait(int millis){
+	try {
+	    Thread.sleep(millis);
+	}
+	catch (InterruptedException e) {
+	}
+    }
+
 }
