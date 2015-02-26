@@ -8,88 +8,70 @@ public class NQueens {
 
     public NQueens(int size) {
 	board = new char[size][size];
+        clear();
     }
 
     public boolean solve() {
-	// return solve(0, 0, board.length);
-	for (int x = 0; x < board.length; x++) {
-	    if (solve(x, 0, board.length)) {
-		return true;
-	    }
-	}
-	return false;
+	return solve(0, 0);
     }
 
-    private boolean solve(int x, int y, int n) {
+    private boolean solve(int x, int y) {
 	// print
 	System.out.println(this);
-	wait(500);
+	System.out.println(x + ", " + y);
+	wait(200);
 	// begin
-	if (inBounds(x, y)) {
-	    if (board[x][y] == ' ') {
-		board[x][y] = 'Q';
-		// Base: no more pieces to put on board
-		if ((n == 0 || !threatened(x, y))
-		    // the knight can go anywhere the queen can't go (within the 5x5 neigh-borhood)
-		    // and vice versa, so the knight's moves are a good heuristic
-		    && solve(x-1,y-2,n-1) || solve(x+1,y-2,n-1)
-		    || solve(x-2,y-1,n-1) || solve(x+2,y-1,n-1)
-		    || solve(x-2,y+1,n-1) || solve(x+2,y+1,n-1)
-		    || solve(x-1,y+2,n-1) || solve(x+1,y+2,n-1)) {
-		    return true;
+
+	// Base case: run past bottom of board - done
+	if (x >= board.length) {
+	    return true;
+	}
+	// Backtrack - didn't work
+	if (y >= board.length) {
+	    //	    clearRow(x - 1);
+	    return solve(x + 1, 0);
+	}
+	// run past end of row - next row
+	if (safe(x, y)) {
+	    // Only queen in this row
+	    board[x][y] = 'Q';
+	    // Move to next row
+	    return solve(x + 1, 0);
+	}
+	else {
+	    // Don't put a queen, move to next row
+	    return solve(x, y + 1);
+	}
+    }
+
+    // Iterative safety check (via Eric Lin)
+    private boolean safe(int x, int y) {
+	for (int tx = 0; tx < board.length; tx++) {
+	    for (int ty = 0; ty < board.length; ty++) {
+		if ((x == tx ^ y == ty // horizontal or vertical
+		     || Math.abs(x - tx) == Math.abs(y - ty)) // diagonal
+		    && board[tx][ty] == 'Q') {
+		    return false;
 		}
-		board[x][y] = ' ';
 	    }
 	}
-	return false;
-    }
-
-    private boolean threatened(int x, int y) {
-	return threatened(x + rowIncr(0), y + colIncr(0), 0)
-	    || threatened(x + rowIncr(1), y + colIncr(1), 1)
-	    || threatened(x + rowIncr(2), y + colIncr(2), 2)
-	    || threatened(x + rowIncr(3), y + colIncr(3), 3)
-	    || threatened(x + rowIncr(4), y + colIncr(4), 4)
-	    || threatened(x + rowIncr(5), y + colIncr(5), 5)
-	    || threatened(x + rowIncr(6), y + colIncr(6), 6)
-	    || threatened(x + rowIncr(7), y + colIncr(7), 7);
-    }
-
-    /**
-     * Directions:
-     * 7 0 1
-     * 6 x 2
-     * 5 4 3
-     */
-    private boolean threatened(int x, int y, int direction) {
-	return inBounds(x, y) && board[x][y] == 'Q'
-	    || threatened(x + rowIncr(direction), y + colIncr(direction), direction);
-    }
-
-    /* +1 is down, -1 is up */
-    private int rowIncr(int direction) {
-	switch (direction) {
-	case 7: case 0: case 1:  return -1; // go up
-	case 6: /*mid*/ case 2:  return 0;
-	case 5: case 4: case 3:  return 1; // go down
-	default:
-	    throw new IllegalArgumentException("direction must be in [0, 8)");
-	}
-    }
-
-    /* +1 is right, -1 is left */
-    private int colIncr(int direction) {
-	switch (direction) {
-	case 1: case 2: case 3:  return 1; // go right
-	case 0: /*mid*/ case 4:  return 0;
-	case 7: case 6: case 5:  return -1; // go left
-	default:
-	    throw new IllegalArgumentException("direction must be in [0, 8)");
-	}
+	return true;
     }
 
     private boolean inBounds(int x, int y) {
 	return x >= 0 && x < board.length && y >= 0 && y < board.length;
+    }
+
+    private void clear() {
+	for (int x = 0; x < board.length; x++) {
+	    clearRow(x);
+	}
+    }
+
+    private void clearRow(int x) {
+	for (int y = 0; y < board.length; y++) {
+	    board[x][y] = ' ';
+	}
     }
 
     // DISPLAYING
