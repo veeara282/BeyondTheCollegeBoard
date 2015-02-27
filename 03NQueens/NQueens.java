@@ -17,26 +17,32 @@ public class NQueens {
 
     private boolean solve(int x, int y) {
 	// print
-	System.out.println(this);
-	System.out.println(x + ", " + y);
-	wait(200);
+	//	System.out.println(this);
+	//	System.out.println(x + ", " + y);
+	//	wait(200);
 	// begin
 
 	// Base case: run past bottom of board - done
 	if (x >= board.length) {
 	    return true;
 	}
-	// Backtrack - didn't work
-	if (y >= board.length) {
-	    //	    clearRow(x - 1);
-	    return solve(x + 1, 0);
+	// Base case: end of row (or middle of first row) - backtrack
+	if (y >= board.length || x == 0 && y >= board.length/2) {
+	    clearRow(x - 1);
+	    return false;
 	}
 	// run past end of row - next row
 	if (safe(x, y)) {
 	    // Only queen in this row
 	    board[x][y] = 'Q';
 	    // Move to next row
-	    return solve(x + 1, 0);
+	    if (solve(x + 1, 0)) {
+		return true;
+	    }
+	    // Backtrack
+	    else {
+		return solve(x, y + 1);
+	    }
 	}
 	else {
 	    // Don't put a queen, move to next row
