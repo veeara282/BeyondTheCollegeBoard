@@ -9,7 +9,7 @@ public class MergeSort {
      */
     private static int[] sortSub(int[] A, int start, int end) {
 	// Diagnostic
-	Driver.print(A);
+	// Driver.print(A);
 	int subLen = end - start;
 	if (subLen == 1) {
 	    return A;

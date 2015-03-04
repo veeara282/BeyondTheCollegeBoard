@@ -1,19 +1,36 @@
+import java.util.Arrays;
+import java.util.Random;
+
 public class Driver {
 
     public static void main(String[] arr) {
-	int[] unsorted = {6, 5, 3, 1, 8, 7, 2, 4};
-	int[] sorted = {1, 2, 3, 4, 5, 6, 7, 8};
-	print(unsorted);
+	int size;
+	if (arr.length > 0)
+	    size = Integer.parseInt(arr[0]);
+	else
+	    size = 100000;
+	int[] unsorted = random(size);
+	// int[] sorted = 
+	// print(unsorted);
 	MergeSort.sort(unsorted);
 	System.out.println("Finished sorting");
-	print(unsorted);
-	print(sorted);
-	if (match(unsorted, sorted)) {
-	    System.out.println("Sort successful");
+	// print(unsorted);
+	// print(sorted);
+	// if (match(unsorted, sorted)) {
+	//     System.out.println("Sort successful");
+	// }
+	// else {
+	//     System.out.println("Sort unsuccessful");
+	// }
+    }
+
+    private static int[] random(int size) {
+	int[] A = new int[size];
+	Random r = new Random();
+	for (int i = 0; i < size; i++) {
+	    A[i] = r.nextInt();
 	}
-	else {
-	    System.out.println("Sort unsuccessful");
-	}
+	return A;
     }
 
     public static void print(int[] A) {

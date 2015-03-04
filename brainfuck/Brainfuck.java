@@ -72,26 +72,30 @@ public class Brainfuck implements Runnable {
     }
 
     private int jumpRight(int ptr) {
-	int depth = 1;
-	while (depth > 0) {
+	int depth = 0;
+	do {
+	//	while (depth > 0) {
 	    if (program.charAt(ptr) == '[')
 		depth++;
 	    if (program.charAt(ptr) == ']')
 		depth--;
 	    ptr++;
 	}
+	while (depth > 0);
 	return ptr;
     }
 
     private int jumpLeft(int ptr) {
 	int depth = 1;
-	while (depth > 0) {
+	do {
+	    //	while (depth > 0) {
 	    if (program.charAt(ptr) == '[')
-		depth++;
-	    if (program.charAt(ptr) == ']')
 		depth--;
+	    if (program.charAt(ptr) == ']')
+		depth++;
 	    ptr--;
 	}
+	while (depth > 0);
 	return ptr;
     }
 
