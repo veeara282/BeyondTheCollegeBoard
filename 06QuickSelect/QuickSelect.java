@@ -8,11 +8,17 @@ public class QuickSelect {
 	int range = end - start,
 	    pivotVal = a[start + r.nextInt(range)];
 	int[] tmp = new int[range];
-	for (int i = 0; i < range; i++) {
-	    if (a[start + i] < pivotVal) {
-
-	    }
+	int left = start, right = end;
+	for (int i = start; i < end; i++) {
+	    if (a[i] < pivotVal)
+		tmp[left++] = a[i++];
+	    else if (a[i] > pivotVal)
+		tmp[right--] = a[i++];
 	}
+	for (int i = left; i < right; i++)
+	    tmp[i] = pivotVal;
+	partition(a, start, left);
+	partition(a, right, end);
     }
 
 }
