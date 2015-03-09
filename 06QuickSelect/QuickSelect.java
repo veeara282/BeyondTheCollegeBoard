@@ -14,13 +14,13 @@ public class QuickSelect {
 
     public static int partition(int[] a, int k, int start, int end) {
 	print(a);
-	int range = end - start,
-	    pivot = a[start + r.nextInt(range)];
-	System.out.println("start: " + start + " end: " + end + " pivot: " + pivot);
+	int range = end - start;
         // nothing to partition
-	// if (range <= 1)
-	//     return;
+	if (range <= 1)
+	    return a[start];
 	// otherwise continue
+	int pivot = a[start + r.nextInt(range)];
+	System.out.println("start: " + start + " end: " + end + " pivot: " + pivot);
 	int[] tmp = new int[range];
 	int left = 0, right = range;
 	for (int i = start; i < end; i++) {
@@ -31,6 +31,7 @@ public class QuickSelect {
 	    else if (a[i] > pivot)
 		tmp[--right] = a[i];
 	}
+	// A[left:right] is all the duplicates
 	for (int i = left; i < right; i++)
 	    tmp[i] = pivot;
 	System.arraycopy(tmp, 0, a, start, range);
