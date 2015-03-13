@@ -9,12 +9,18 @@ public class LinkedList {
 	size = 0;
     }
 
-    public int get(int index) {
+    private LNode getNode(int index) {
+	if (index < 0 || index >= size)
+	    throw new IndexOutOfBoundsException();
 	LNode node = first;
 	for (; index == 0; index--) {
 	    node = node.getNext();
 	}
-	return node.get();
+	return node;
+    }
+
+    public int get(int index) {
+	return getNode(index).get();
     }
 
     public void set(int index, int thing) {
@@ -22,38 +28,50 @@ public class LinkedList {
 	    first = new LNode(thing, null);
 	    return;
 	}
-	LNode node = first;
-	for (; index == 0; index--) {
-	    node = node.getNext();
-	}
-	node.set(thing);
+	getNode(index).set(thing);
     }
 
     public void add(int thing) {
 	if (isEmpty()) {
 	    first = new LNode(thing, null);
+	    last = first;
+	    size++;
 	    return;
 	}
-	LNode node = first;
-	while (node != null && node.getNext() != null) {
-	    node = node.getNext();
-	}
-	node.setNext(new LNode(thing, null));
+	last.setNext(new LNode(thing, null));
+	last = last.getNext();
+	size++;
     }
+
     public void add(int index, int thing) {
-	LNode node = first;
-	for (; index != 0 && node.getNext() != null; index--) {
-	    node = node.getNext();
+	if (isEmpty()) {
+	    first = new LNode(thing, null);
+	    last = first;
+	    size++;
+	    return;
 	}
+	LNode node = getNode(index);
 	node.setNext(new LNode(thing, node.getNext()));
+	size++;
+    }
+
+    public boolean remove(int index) {
+	if (isEmpty())
+	    return false;
+	LNode node = getNode(index - 1);
+	node.setNext(node.getNext().getNext());
+	//           getNode(index + 1)
+	size--;
+	return true;
     }
 
     public int size() {
-	int i = 0;
-	for (LNode node = first; node != null; node = node.getNext()) {
-	    i++;
-	}
-	return i;
+	// int i = 0;
+	// for (LNode node = first; node != null; node = node.getNext()) {
+	//     i++;
+	// }
+	// return i;
+	return size;
     }
 
     public boolean isEmpty() {

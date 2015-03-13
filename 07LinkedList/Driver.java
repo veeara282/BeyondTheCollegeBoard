@@ -18,7 +18,7 @@ public class Driver {
 	System.out.println();
 
 	for (int i = 0; i < 20; i++) {
-	    l.add(r.nextInt(40), r.nextInt(100));
+	    l.add(l.size(), r.nextInt(100));
 	}
 	System.out.println(l);
 	System.out.println(l.size());
