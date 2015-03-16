@@ -1,15 +1,19 @@
-public class LinkedList {
+public class LinkedList<T> {
 
-    private LNode first, last;
+    public String name() {
+	return "fitzgerald.aidan";
+    }
+
+    private LNode<T> first, last;
     private int size;
 
     public LinkedList() {
-	first = null;
-	last = null;
+	first = LNode.<T>dummy();
+	last = first;
 	size = 0;
     }
 
-    private LNode getNode(int index) {
+    private LNode<T> getNode(int index) {
 	if (index < 0 || index >= size)
 	    throw new IndexOutOfBoundsException();
 	LNode node = first;
@@ -19,46 +23,46 @@ public class LinkedList {
 	return node;
     }
 
-    public int get(int index) {
+    public T get(int index) {
 	return getNode(index).get();
     }
 
-    public void set(int index, int thing) {
+    public void set(int index, T thing) {
 	if (isEmpty()) {
-	    first = new LNode(thing, null);
+	    first = new LNode<T>(thing);
 	    return;
 	}
 	getNode(index).set(thing);
     }
 
-    public void add(int thing) {
+    public void add(T thing) {
 	if (isEmpty()) {
-	    first = new LNode(thing, null);
+	    first = new LNode<T>(thing);
 	    last = first;
 	    size++;
 	    return;
 	}
-	last.setNext(new LNode(thing, null));
+	last.setNext(new LNode<T>(thing));
 	last = last.getNext();
 	size++;
     }
 
     public void add(int index, int thing) {
 	if (isEmpty()) {
-	    first = new LNode(thing, null);
+	    first = new LNode<T>(thing);
 	    last = first;
 	    size++;
 	    return;
 	}
-	LNode node = getNode(index);
-	node.setNext(new LNode(thing, node.getNext()));
+	LNode<T> node = getNode(index);
+	node.setNext(new LNode<T>(thing, node.getNext()));
 	size++;
     }
 
     public boolean remove(int index) {
 	if (isEmpty())
 	    return false;
-	LNode node = getNode(index - 1);
+	LNode<T> node = getNode(index - 1);
 	node.setNext(node.getNext().getNext());
 	//           getNode(index + 1)
 	size--;
@@ -75,14 +79,14 @@ public class LinkedList {
     }
 
     public boolean isEmpty() {
-	return first == null;
+	return first.isDummy();
     }
 
     public String toString() {
 	if (isEmpty())
 	    return "[]";
 	StringBuilder pass = new StringBuilder().append('[');
-	for (LNode cur = first; cur != null; cur = cur.getNext()) {
+	for (LNode<T> cur = first; !cur.isDummy(); cur = cur.getNext()) {
 	    pass.append(cur.get());
 	    pass.append(", ");
 	}
