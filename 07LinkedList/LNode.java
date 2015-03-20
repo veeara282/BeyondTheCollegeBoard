@@ -12,12 +12,6 @@ class LNode<E> {
 	this.next = next;
     }
 
-    // E get(int index) {
-    // 	if (index == 0)
-    // 	    return get();
-    // 	else
-    // 	    return next.get(index - 1);
-    // }
     E get() {
 	return data;
     }

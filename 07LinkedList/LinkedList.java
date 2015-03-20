@@ -1,4 +1,4 @@
-public class LinkedList<T> {
+public class LinkedList<T> { // implements Iterable<T> {
 
     public String name() {
 	return "fitzgerald.aidan";
@@ -28,6 +28,8 @@ public class LinkedList<T> {
     }
 
     public void set(int index, T thing) {
+	if (index >= size || index < 0)
+	    throw new IndexOutOfBoundsException();
 	if (isEmpty()) {
 	    first = new LNode<T>(thing);
 	    return;
@@ -47,11 +49,11 @@ public class LinkedList<T> {
 	size++;
     }
 
-    public void add(int index, int thing) {
-	if (isEmpty()) {
-	    first = new LNode<T>(thing);
-	    last = first;
-	    size++;
+    public void add(int index, T thing) {
+	if (index > size || index < 0)
+	    throw new IndexOutOfBoundsException();
+	if (index == size) {
+	    add(thing);
 	    return;
 	}
 	LNode<T> node = getNode(index);
@@ -62,6 +64,8 @@ public class LinkedList<T> {
     public boolean remove(int index) {
 	if (isEmpty())
 	    return false;
+	if (index >= size || index < 0)
+	    throw new IndexOutOfBoundsException();
 	LNode<T> node = getNode(index - 1);
 	node.setNext(node.getNext().getNext());
 	//           getNode(index + 1)
@@ -93,4 +97,30 @@ public class LinkedList<T> {
 	pass.setCharAt(pass.length() - 2, ']');
 	return pass.deleteCharAt(pass.length() - 1).toString();
     }
+
+    // public Iterator<T> iterator() {
+    // 	return new I<T>(first);
+    // }
+
+    // private class I<T> implements Iterator<T> {
+    // 	private LNode<T> next;
+
+    // 	public I<T>(LNode<T> first) {
+    // 	    next = first;
+    // 	}
+
+    // 	public boolean hasNext() {
+    // 	    return !next.isDummy();
+    // 	}
+
+    // 	public T next() {
+    // 	    cur = next;
+    // 	    next = cur.getNext();
+    // 	    return cur.get();
+    // 	}
+
+    // 	public void remove() {
+    // 	    throw new UnsupportedOperationException();
+    // 	}
+    // }
 }
