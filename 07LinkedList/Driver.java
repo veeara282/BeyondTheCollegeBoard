@@ -5,7 +5,7 @@ public class Driver {
     public static void main(String[] arr) {
 	Random r = new Random();
 
-	LinkedList l = new LinkedList();
+	MyLinkedList l = new MyLinkedList();
 	System.out.println(l);
 	System.out.println(l.size());
 	System.out.println();
