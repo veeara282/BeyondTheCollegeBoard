@@ -2,7 +2,7 @@ public class MyQueue<E> {
 
     private MyLinkedList<E> quoi;
 
-    public MyQueue<E>() {
+    public MyQueue() {
 	quoi = new MyLinkedList<E>();
     }
 

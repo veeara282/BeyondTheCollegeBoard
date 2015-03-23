@@ -1,19 +1,30 @@
-import java.util.*;
-
 public class MyStack<E> {
 
-    private LinkedList<E> data;
+    private LNode<E> top;
 
-    public void push(E elem) {
-	data.addFirst(elem);
+    public MyStack() {
+	top = null;
+    }
+
+    public void push(E item) {
+	if (top == null) {
+	    top = new LNode<>(item);
+	    return;
+	}
+	LNode<E> augend = new LNode<>(item);
+	augend.setNext(top);
+	top = augend;
     }
 
     public E peek() {
-	return data.get(0);
+	return top.get();
     }
 
     public E pop() {
-	return data.remove(0);
+	// pop the top
+	LNode<E> poop = top;
+	top = top.getNext();
+	return poop.get();
     }
 
 }
