@@ -9,7 +9,7 @@ public abstract class MazeBase {
     // ...but not these
     private int maxx, maxy;
 
-    public Maze(String filename) {
+    public MazeBase(String filename) {
 	startx = -1;
 	starty = -1;
 	String ans = "";
