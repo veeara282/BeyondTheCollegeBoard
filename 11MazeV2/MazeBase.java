@@ -89,38 +89,4 @@ public abstract class MazeBase {
 	return hide()+invert()+go(0,0)+ans+"\n"+show();
     }
     
-    public void solve(){
-	if(startx < 0){
-	    System.out.println("No starting point 'S' found in maze.");
-	}else{
-	    maze[startx][starty]=' ';
-	    solve(maze,startx,starty);
-	}
-    }
-
-    public boolean solve(char[][]maze,int x,int y){
-	System.out.println(this);
-	wait(20);
-	//ASSIGNMENT IS TO COMPLETE THIS PART******************
-	if (maze[x][y] == 'E') {
-	    return true;
-	}
-	if (maze[x][y] == ' ') {
-	    // mark the floor
-	    maze[x][y] = '@';
-	    // try to move in all 4 directions (von Neumann neighborhood)
-	    if (solve(maze, x+1, y) || solve(maze, x-1, y)
-		|| solve(maze, x, y+1) || solve(maze, x, y-1)) {
-		return true;
-	    }
-	    else {
-		maze[x][y] = '.';
-		return false;
-	    }
-	}
-	//ASSIGNMENT IS TO COMPLETE THE PART ABOVE THIS******************
-	return false;//by default the maze didn't get solved
-    }
-
-
 }

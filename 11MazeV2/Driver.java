@@ -7,9 +7,9 @@ public class Driver{
 	}else{
 	    f = new Maze(args[0]);
 	}
+	System.out.println(f);
 	f.clearTerminal();
-	f.solve();
-				
+	f.solveBFS(true);
     }
 
 }
