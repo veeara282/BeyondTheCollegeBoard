@@ -45,29 +45,20 @@ public abstract class MazeBase {
 	}
     }
 
+    // Terminal muck
+
+    private static final String clear =  "\033[2J";
+    private static final String hide =  "\033[?25l";
+    private static final String show =  "\033[?25h";
+
     private String go(int x,int y){
-	return ("["+x+";"+y+"H");
-    }
-    
-    private String clear(){
-	return  "[2J";
+	return ("\033[" + x + ";" + y + "H");
     }
 
-    private String hide(){
-	return  "[?25l";
-    }
-
-    private String show(){
-	return  "[?25h";
-    }
-    private String invert(){
-	return  "[37";
-    }
-
-
-
-    public void clearTerminal(){
-	System.out.println(clear());
+    // used in Driver.java line 11
+    // just before solving
+    public void clearTerminal() {
+	System.out.println(clear);
     }
 
     public void wait(int millis){
@@ -78,15 +69,20 @@ public abstract class MazeBase {
 	}
     }
 
-    public String toString(){
-	String ans = ""+maxx+","+maxy+"\n";
-	for(int i=0;i<maxx*maxy;i++){
-	    if(i%maxx ==0 && i!=0){
-		ans+="\n";
+    public String toString() {
+	StringBuilder ans = new StringBuilder(maxx).append(',').append(maxy).append('\n');
+	for (char[] row: maze) {
+	    for (char cell: row) {
+		ans.append(cell).append(' ');
 	    }
-	    ans += maze[i%maxx][i/maxx];
+	    ans.append('\n');
 	}
-	return hide()+invert()+go(0,0)+ans+"\n"+show();
+	return ans.toString();
     }
-    
+
+    public String toString(boolean animate) {
+	if (!animate)
+	    return toString();
+	return hide + go(0,0) + toString() + "\n" + show;
+    }
 }

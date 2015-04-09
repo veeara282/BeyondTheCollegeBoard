@@ -1,16 +1,17 @@
 import java.lang.reflect.Array;
+import java.util.NoSuchElementException;
 
 public class MyDeque<T> {
 
     // make this using reflection
-    private T[] data;
+    private Object[] data;
 
     // internal indices wrap around
     // end is last index + 1, so it should never equal start
     private int start, end;
 
     public MyDeque() {
-	data = blankArray(16);
+	data = new Object[16];
 	start = 0;
 	end = 1;
     }
@@ -22,7 +23,7 @@ public class MyDeque<T> {
 	    return;
 	}
 	// Only one level of recursion should be necessary
-	data = resize();
+	resize();
 	addFirst(value);
     }
 
@@ -33,22 +34,44 @@ public class MyDeque<T> {
 	    return;
 	}
 	// Only one level of recursion should be necessary
-	data = resize();
+	resize();
 	addLast(value);
     }
 
-    /**
-     * Hack: http://stackoverflow.com/a/17105228
-     */
-    private T[] blankArray(int length) {
-	return Array.newInstance(T.class, length);
+    public T getFirst() throws NoSuchElementException {
+	if (isEmpty())
+	    throw new NoSuchElementException();
+	return (T) data[start];
+    }
+
+    public T getLast() throws NoSuchElementException {
+	if (isEmpty())
+	    throw new NoSuchElementException();
+	return (T) data[end - 1];
+    }
+
+    public T removeFirst() throws NoSuchElementException {
+	if (isEmpty())
+	    throw new NoSuchElementException();
+	return (T) data[start++];
+    }
+
+    public T removeLast() throws NoSuchElementException {
+	if (isEmpty())
+	    throw new NoSuchElementException();
+	return (T) data[end-- - 1];
+    }
+
+    public boolean isEmpty() {
+	return end == start + 1;
     }
 
     /**
+     * Can't use generic T[]
      * @throws NegativeArraySizeException when the new size is 1 << 31 or more
      */
-    private T[] resize() {
-	T[] newSpace = blankArray(data.length << 1);
+    private void resize() {
+	Object[] newSpace = new Object[data.length << 1];
 	for (int i = 0; i < data.length; i++) {
 	    newSpace[i] = data[(i + start) % data.length];
 	}
