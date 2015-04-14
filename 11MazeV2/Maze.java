@@ -32,7 +32,7 @@ public class Maze extends MazeBase {
 	for (Tile p = new Tile(startx, starty); moves.size() != 0; p = moves.removeFirst()) {
 	    // print
 	    if (animate) {
-		System.out.println(this);
+		System.out.println(toString(true));
 		wait(20);
 	    }
 	    // proceed
