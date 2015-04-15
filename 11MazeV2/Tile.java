@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * Represents a {@link Maze} tile.
  * Each Tile is linked to the tile it was reached from.

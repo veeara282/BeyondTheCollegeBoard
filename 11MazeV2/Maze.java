@@ -17,7 +17,7 @@ public class Maze extends MazeBase {
 	return solveDFS(false);
     }
 
-    private static final int BFS = 0, DFS = 1;
+    private static final int BFS = 0, DFS = 1, best = 2, AStar = 3;
 
     public boolean solveBFS(boolean animate) {
 	return solve(BFS, animate);
@@ -27,23 +27,24 @@ public class Maze extends MazeBase {
 	return solve(DFS, animate);
     }
 
-    private boolean solve(int mode, boolean animate) {
+    public boolean solve(int mode, boolean animate) {
 	Deque<Tile> moves = new LinkedList<Tile>();
 	Tile p = new Tile(startx, starty);
 	moves.addFirst(p);
 	while (moves.size() != 0) {
 	    p = moves.removeFirst();
-	    // print
-	    if (animate) {
-		System.out.println(toString(true));
-		wait(20);
-	    }
+	    animate(animate);
 	    // proceed
 	    int x = p.row;
 	    int y = p.col;
 	    if (maze[x][y] == 'E') {
 		// save the last tile removed
 		solution = p;
+		// backtrack thru the maze
+		for (Tile bk: solution) {
+		    maze[bk.row][bk.col] = '@';
+		    animate(animate);
+		}
 		return true;
 	    }
 	    if (maze[x][y] == ' ' || maze[x][y] == 'S') {
@@ -68,6 +69,13 @@ public class Maze extends MazeBase {
 	    }
 	}
 	return false;
+    }
+
+    private void animate(boolean animate) {
+	if (animate) {
+	    System.out.println(toString(true));
+	    wait(20);
+	}
     }
 
     public int[] solutionCoordinates() {
