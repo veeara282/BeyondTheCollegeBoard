@@ -49,7 +49,7 @@ public class PriorityQueue<T> {
     // Remove data[indexLowest()] then shift the head right
     public T removeLowest() throws NoSuchElementException {
 	int mindex = mindex();
-	T min = data[mindex];
+	T min = (T) data[mindex];
 	// shift everything from start to (mindex - 1) right 1
 	for (int i = mindex - 1; i >= start || i < start && i >= end;) {
 	    // wrap around

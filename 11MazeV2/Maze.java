@@ -29,7 +29,10 @@ public class Maze extends MazeBase {
 
     private boolean solve(int mode, boolean animate) {
 	Deque<Tile> moves = new LinkedList<Tile>();
-	for (Tile p = new Tile(startx, starty); moves.size() != 0; p = moves.removeFirst()) {
+	Tile p = new Tile(startx, starty);
+	moves.addFirst(p);
+	while (moves.size() != 0) {
+	    p = moves.removeFirst();
 	    // print
 	    if (animate) {
 		System.out.println(toString(true));
@@ -46,7 +49,7 @@ public class Maze extends MazeBase {
 	    if (maze[x][y] == ' ' || maze[x][y] == 'S') {
 		// mark the floor
 		if (maze[x][y] == ' ')
-		    maze[x][y] = 'x';
+		    maze[x][y] = '.';
 		// add all 4 directions (von Neumann neighborhood)
 		// when we reach them, they'll be ignored and garbage collected
 		// if you can't go on them

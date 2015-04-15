@@ -4,7 +4,7 @@
  * When you don't need the Tile anymore, it gets garbage collected,
  * so that only the Tiles in the right solution are saved.
  */
-public class Tile {
+public class Tile implements Iterable<Tile> {
 
     public Tile prev;
 
@@ -18,6 +18,10 @@ public class Tile {
 	this.row = row;
 	this.col = col;
 	this.prev = prev;
+    }
+
+    public Iterator<Tile> iterator() {
+	return new TileCrawler(this);
     }
 
 }

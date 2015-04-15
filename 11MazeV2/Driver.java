@@ -4,12 +4,18 @@ public class Driver{
 	Maze f;
 	if(args.length < 1){
 	    f = new Maze("data1.dat");
-	}else{
+	}
+	else {
 	    f = new Maze(args[0]);
 	}
-	System.out.println(f);
+	//	System.out.println(f);
 	f.clearTerminal();
-	f.solveBFS(true);
+	if (args.length < 2) {
+	    f.solveBFS(true);
+	}
+	else {
+
+	}
     }
 
 }
