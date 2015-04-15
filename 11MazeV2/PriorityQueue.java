@@ -10,7 +10,7 @@ public class PriorityQueue<T> {
     // end is last index + 1, so it should never equal start
     private int start, end;
 
-    public MyDeque() {
+    public PriorityQueue() {
 	data = new Object[16];
 	start = 0;
 	end = 1;
@@ -28,7 +28,7 @@ public class PriorityQueue<T> {
 	add(value, priority);
     }
 
-    private int indexLowest() throws NoSuchElementException {
+    private int mindex() throws NoSuchElementException {
 	if (isEmpty())
 	    throw new NoSuchElementException();
 	int min = Integer.MAX_VALUE, mindex = start;
@@ -43,14 +43,30 @@ public class PriorityQueue<T> {
     }
 
     public T getLowest() throws NoSuchElementException {
-	return (T) data[indexLowest()];
+	return (T) data[mindex()];
     }
 
-    // Remove data[indexLowest()] then shift
+    // Remove data[indexLowest()] then shift the head right
     public T removeLowest() throws NoSuchElementException {
-	if (isEmpty())
-	    throw new NoSuchElementException();
-	return (T) data[start++];
+	int mindex = mindex();
+	T min = data[mindex];
+	// shift everything from start to (mindex - 1) right 1
+	for (int i = mindex - 1; i >= start || i < start && i >= end;) {
+	    // wrap around
+	    if (i == 0) {
+		data[0] = data[data.length - 1];
+		priorities[0] = priorities[data.length - 1];
+		i = data.length - 1;
+	    }
+	    // shift
+	    else {
+		data[i+1] = data[i];
+		priorities[i+1] = priorities[i];
+	    }
+	    i--;
+	}
+	start++;
+	return min;
     }
 
     public boolean isEmpty() {
