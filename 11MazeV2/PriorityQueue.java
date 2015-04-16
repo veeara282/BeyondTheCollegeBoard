@@ -12,6 +12,7 @@ public class PriorityQueue<T> {
 
     public PriorityQueue() {
 	data = new Object[16];
+	priorities = new int[16];
 	start = 0;
 	end = 1;
     }
@@ -25,6 +26,7 @@ public class PriorityQueue<T> {
 	}
 	// Only one level of recursion should be necessary
 	resize();
+	resizeP();
 	add(value, priority);
     }
 
@@ -42,12 +44,12 @@ public class PriorityQueue<T> {
 	return mindex;
     }
 
-    public T getLowest() throws NoSuchElementException {
+    public T get() throws NoSuchElementException {
 	return (T) data[mindex()];
     }
 
-    // Remove data[indexLowest()] then shift the head right
-    public T removeLowest() throws NoSuchElementException {
+    // Remove data[mindex()] then shift the head right
+    public T remove() throws NoSuchElementException {
 	int mindex = mindex();
 	T min = (T) data[mindex];
 	// shift everything from start to (mindex - 1) right 1
@@ -88,5 +90,19 @@ public class PriorityQueue<T> {
 	// Overwrite data
 	data = newSpace;
     }
+
+    // resize priorities array
+    private void resizeP() {
+	int[] newSpace = new int[data.length << 1];
+	for (int i = 0; i < data.length; i++) {
+	    newSpace[i] = priorities[(i + start) % data.length];
+	}
+	// Change start and end BEFORE garbage collecting the old array
+	start = 0;
+	end = data.length;
+	// Overwrite data
+	priorities = newSpace;
+    }
+
 
 }
