@@ -17,6 +17,14 @@ public class Maze extends MazeBase {
 	return solveDFS(false);
     }
 
+    public boolean solveBest() {
+	return solveBest(false);
+    }
+
+    public boolean solveAStar() {
+	return solveAStar(false);
+    }
+
     private static final int BFS = 0, DFS = 1, best = 2, AStar = 3;
 
     public boolean solveBFS(boolean animate) {
@@ -25,6 +33,14 @@ public class Maze extends MazeBase {
 
     public boolean solveDFS(boolean animate) {
 	return solve(DFS, animate);
+    }
+
+    public boolean solveBest(boolean animate) {
+	return solvePQ(best, animate);
+    }
+
+    public boolean solveAStar(boolean animate) {
+	return solvePQ(AStar, animate);
     }
 
     public boolean solve(int mode, boolean animate) {
