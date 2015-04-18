@@ -14,19 +14,18 @@ public class PriorityQueue<T> {
 	data = new Object[16];
 	priorities = new int[16];
 	start = 0;
-	end = 1;
+	end = 0;
     }
 
     public void add(T value, int priority) {
-	if (end + 1 != start) {
-	    data[start] = value;
-	    priorities[start--] = priority;
-	    start %= data.length;
+	if ((end + 1) % data.length != start) {
+	    data[end] = value;
+	    priorities[end++] = priority;
+	    end %= data.length;
 	    return;
 	}
 	// Only one level of recursion should be necessary
 	resize();
-	resizeP();
 	add(value, priority);
     }
 
@@ -48,31 +47,24 @@ public class PriorityQueue<T> {
 	return (T) data[mindex()];
     }
 
-    // Remove data[mindex()] then shift the head right
+    // Remove data[mindex()] then fill with the tail
     public T remove() throws NoSuchElementException {
 	int mindex = mindex();
 	T min = (T) data[mindex];
-	// shift everything from start to (mindex - 1) right 1
-	for (int i = mindex - 1; i >= start || i < start && i >= end;) {
-	    // wrap around
-	    if (i == 0) {
-		data[0] = data[data.length - 1];
-		priorities[0] = priorities[data.length - 1];
-		i = data.length - 1;
-	    }
-	    // shift
-	    else {
-		data[i+1] = data[i];
-		priorities[i+1] = priorities[i];
-	    }
-	    i--;
-	}
-	start++;
+
+	// move tail here O(1) rather than shifting O(n)
+	data[mindex] = data[end-1];
+	priorities[mindex] = priorities[end-1];
+	// wipe from old location so it can be garbage collected once removed
+	data[end-1] = null;
+	priorities[end-1] = 0;
+	end--;
+
 	return min;
     }
 
     public boolean isEmpty() {
-	return end == start + 1;
+	return end == start;
     }
 
     /**
@@ -81,28 +73,32 @@ public class PriorityQueue<T> {
      */
     private void resize() {
 	Object[] newSpace = new Object[data.length << 1];
-	for (int i = 0; i < data.length; i++) {
+	int[] newSpWts = new int[data.length << 1];
+
+	for (int i = 0; i < end - start; i++) {
 	    newSpace[i] = data[(i + start) % data.length];
+	    newSpWts[i] = priorities[(i + start) % data.length];
 	}
 	// Change start and end BEFORE garbage collecting the old array
 	start = 0;
-	end = data.length;
+	end = end - start;
 	// Overwrite data
 	data = newSpace;
+	priorities = newSpWts;
     }
 
-    // resize priorities array
-    private void resizeP() {
-	int[] newSpace = new int[data.length << 1];
-	for (int i = 0; i < data.length; i++) {
-	    newSpace[i] = priorities[(i + start) % data.length];
+    public static void main(String[] args) {
+	PriorityQueue<String> yolo = new PriorityQueue<>();
+
+	int weight = 53;
+	for (String s: args) {
+	    yolo.add(s, weight--);
 	}
-	// Change start and end BEFORE garbage collecting the old array
-	start = 0;
-	end = data.length;
-	// Overwrite data
-	priorities = newSpace;
-    }
 
+	while (!yolo.isEmpty()) {
+	    String swag = yolo.remove();
+	    System.out.println(swag);
+	}
+    }
 
 }
