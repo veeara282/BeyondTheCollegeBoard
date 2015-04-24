@@ -68,6 +68,12 @@ public class BTree<E> {
 	    postOrder( root );
 	System.out.println();
     }
+
+    private void print(TreeNode<E> curr) {
+	System.out.print(curr.getValue());
+	System.out.print(' ');
+    }
+
     /*======== public void preOrder() ==========
       Inputs:   TreeNode<E> curr  
       Returns: 
@@ -75,7 +81,12 @@ public class BTree<E> {
       Prints out the elements in the tree by doing an
       pre-order Traversal
       ====================*/
-    public void preOrder( TreeNode<E> curr ) {
+    public void preOrder(TreeNode<E> curr) {
+	if (curr == null)
+	    return;
+	preOrder(curr.getLeft());
+	print(curr);
+	preOrder(curr.getRight());
     }
 
 
@@ -86,7 +97,12 @@ public class BTree<E> {
       Prints out the elements in the tree by doing an
       in-order Traversal
       ====================*/
-    public void inOrder( TreeNode<E> curr ) {
+    public void inOrder(TreeNode<E> curr) {
+	if (curr == null)
+	    return;
+	print(curr);
+	inOrder(curr.getLeft());
+	inOrder(curr.getRight());
     }
 
     /*======== public void postOrder() ==========
@@ -96,7 +112,12 @@ public class BTree<E> {
       Prints out the elements in the tree by doing a
       post-order Traversal    
       ====================*/
-    public void postOrder( TreeNode<E> curr ) {
+    public void postOrder(TreeNode<E> curr) {
+	if (curr == null)
+	    return;
+	postOrder(curr.getRight());
+	print(curr);
+	postOrder(curr.getLeft());
     }
     
     /*======== public int getHeight()) ==========
@@ -125,8 +146,24 @@ public class BTree<E> {
                given level, ordered left -> right
       
       ====================*/
-    public String getLevel( TreeNode<E> curr, int level, int currLevel ) {
-	return "";
+    public String getLevel(TreeNode<E> curr, int level) {
+	StringBuilder strb = new StringBuilder();
+	levelCached(curr, level, 0, strb);
+	return strb.toString();
+    }
+
+    private StringBuilder levelCached(TreeNode<E> cur, int level, int curLevel, StringBuilder cache) {
+	if (cur == null) {
+	    return cache;
+	}
+	else if (curLevel == level) {
+	    return cache.append(cur.getValue()).append(' ');
+	}
+	else {
+	    levelCached(cur.getLeft(), curLevel + 1, cache);
+	    levelCached(cur.getRight(), curLevel + 1, cache);
+	    return cache;
+	}
     }
     
     /*======== public String toString()) ==========
@@ -148,7 +185,12 @@ public class BTree<E> {
             3  4   5
       ====================*/
     public String toString() {
-	return "";
+	StringBuilder strb = new StringBuilder();
+	for (int level = 0; level < getHeight(); level++) {
+	    levelCached(root, level, 0, strb);
+	    strb.append('\n');
+	}
+	return strb.toString();
     }
 	
 
