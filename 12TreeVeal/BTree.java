@@ -21,7 +21,7 @@ public class BTree<E> {
       Wrapper method for the recursive add()
       ====================*/     
     public void add(E d) {
-	TreeNode<E> bn = new TreeNode<>(d);
+	TreeNode<E> bn = new TreeNode<E>(d);
 	if (root == null) {
 	    root = bn;
 	}
@@ -160,8 +160,8 @@ public class BTree<E> {
 	    return cache.append(cur.getValue()).append(' ');
 	}
 	else {
-	    levelCached(cur.getLeft(), curLevel + 1, cache);
-	    levelCached(cur.getRight(), curLevel + 1, cache);
+	    levelCached(cur.getLeft(), level, curLevel + 1, cache);
+	    levelCached(cur.getRight(), level, curLevel + 1, cache);
 	    return cache;
 	}
     }
