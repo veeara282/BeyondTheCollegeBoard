@@ -97,7 +97,7 @@ public class BSTree<T extends Comparable<? super T>> {
 	if (t == null) 
 	    return;
 	inOrderHelper(t.getLeft());
-	System.out.print(t.getData() + " ");
+	System.out.print(t.getValue() + " ");
 	inOrderHelper(t.getRight());
     }
 
