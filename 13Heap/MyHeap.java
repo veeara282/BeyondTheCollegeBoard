@@ -17,7 +17,7 @@ public class MyHeap {
 	Node n = nextAvailableSpace();
 	n.setValue(v);
 	// node is in the wrong place
-	while (isMaxHeap && v > n.getParent().getValue() || v < n.getParent().getValue()) {
+	while (n.compareTo(n.getParent()) > 0) {
 	    n.swap(n.getParent());
 	}
     }
@@ -29,7 +29,9 @@ public class MyHeap {
     public int remove() {
 	Node n = lastNode(), yolo = getRoot();
 	n.swap(yolo);
-
+	while(n.compareTo(n.getChild()) < 0) {
+	    n.swap(n.getChild());
+	}
 	// Finally get to remove the number
 	values[0]--;
 	return yolo.getValue();
@@ -38,6 +40,16 @@ public class MyHeap {
     // max values.length - 1
     public int size() {
 	return values[0];
+    }
+
+    // bit shift algorithm to get the log_2 of the size
+    public int depth() {
+	int power = size(), log2 = 0;
+	while (power != 0) {
+	    power /= 2;
+	    log2++;
+	}
+	return log2;
     }
 
     private void setSize(int size) {
@@ -67,7 +79,7 @@ public class MyHeap {
     /**
      * A reference to a node.
      */
-    private class Node {
+    private class Node implements Comparable<Node> {
 
 	private int index;
 
@@ -84,7 +96,12 @@ public class MyHeap {
 	}
 
 	public int getValue() {
-	    return values[index];
+	    if (exists()) {
+		return values[index];
+	    }
+	    else {
+		throw new NullPointerException("Reference to nonexistent heap node " + index);
+	    }
 	}
 
 	public void setValue(int v) {
@@ -99,6 +116,17 @@ public class MyHeap {
 
 	public Node getParent() {
 	    return new Node(index >> 1);
+	}
+
+	/**
+	 * Returns the greater child if this is a max heap or the smaller child
+	 * if this is a min heap.
+	 */
+	public Node getChild() {
+	    if (getLeft().compareTo(getRight()) >= 0)
+		return getLeft();
+	    else
+		return getRight();
 	}
 
 	public Node getLeft() {
@@ -125,6 +153,23 @@ public class MyHeap {
 	    this.index = ni;
 	}
 
+	/**
+	 * Reversible comparison.
+	 * @return positive if this node is supposed to be above {@code other}
+	 * in the heap, negative if it's supposed to be below {@code other}.
+	 */
+	public int compareTo(Node other) {
+	    return isMaxHeap?(getValue() - other.getValue()):(other.getValue() - getValue());
+	}
+
+    }
+
+    public String toString() {
+	StringBuilder yolo = new StringBuilder();
+	for (int i = 1; i <= size(); i++) {
+	    yolo.append(i).append(' ');
+	}
+	return yolo.toString();
     }
 
 }
