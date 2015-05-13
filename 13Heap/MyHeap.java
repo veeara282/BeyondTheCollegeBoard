@@ -14,11 +14,16 @@ public class MyHeap {
     }
 
     public void add(int v) {
-	Node n = nextAvailableSpace();
-	n.setValue(v);
-	// node is in the wrong place
-	while (n.compareTo(n.getParent()) > 0) {
-	    n.swap(n.getParent());
+	if (size() == 0) {
+	    getRoot().setValue(v);
+	}
+	else {
+	    Node n = nextAvailableSpace();
+	    n.setValue(v);
+	    // node is in the wrong place
+	    while (n.hasParent() && n.compareTo(n.getParent()) > 0) {
+		n.swap(n.getParent());
+	    }
 	}
     }
 
@@ -105,17 +110,22 @@ public class MyHeap {
 	}
 
 	public void setValue(int v) {
-	    if (exists()) {
-		values[index] = v;		
-	    }
-	    else {
+	    if (!exists()) {
 		// Will usually increment the size by 1
 		setSize(index);
 	    }
+	    values[index] = v;		
+	}
+
+	public boolean hasParent() {
+	    return index > 1;
 	}
 
 	public Node getParent() {
-	    return new Node(index >> 1);
+	    if (hasParent())
+		return new Node(index >> 1);
+	    else
+		return null; // root has no parent
 	}
 
 	/**
@@ -167,7 +177,7 @@ public class MyHeap {
     public String toString() {
 	StringBuilder yolo = new StringBuilder();
 	for (int i = 1; i <= size(); i++) {
-	    yolo.append(i).append(' ');
+	    yolo.append(values[i]).append(' ');
 	}
 	return yolo.toString();
     }
