@@ -25,6 +25,7 @@ public class RunningMedian {
 	rebalance();
     }
 
+    /* Restores balance to the Force */
     private void rebalance() {
 	int e = less.size() - more.size();
 	if (e > 1)
