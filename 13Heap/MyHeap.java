@@ -32,14 +32,21 @@ public class MyHeap {
     }
 
     public int remove() {
-	Node n = lastNode(), yolo = getRoot();
-	n.swap(yolo);
-	while(n.compareTo(n.getChild()) < 0) {
+	Node n = lastNode();
+	int yolo;
+
+	theActualRemoval: {
+	    Node swag = getRoot();
+	    n.swap(swag);
+	    yolo = swag.getValue();
+	    values[0]--;
+	}
+
+	while (n.hasLeft() && n.compareTo(n.getChild()) < 0) {
 	    n.swap(n.getChild());
 	}
-	// Finally get to remove the number
-	values[0]--;
-	return yolo.getValue();
+
+	return yolo;
     }
 
     // max values.length - 1
@@ -133,18 +140,27 @@ public class MyHeap {
 	 * if this is a min heap.
 	 */
 	public Node getChild() {
-	    if (getLeft().compareTo(getRight()) >= 0)
-		return getLeft();
-	    else
+	    if (hasRight() && getLeft().compareTo(getRight()) <= 0)
 		return getRight();
+	    else
+		return getLeft();
 	}
 
 	public Node getLeft() {
-	    return new Node(index << 1);
+	    return new Node(index * 2);
 	}
 
 	public Node getRight() {
-	    return new Node((index << 1) + 1);
+	    return new Node(index * 2 + 1);
+	}
+
+	public boolean hasLeft() {
+	    return index * 2 <= size();
+	}
+
+	public boolean hasRight() {
+	    // hasRight() only if hasLeft()
+	    return index * 2 + 1 <= size();
 	}
 
 	public Node getSista() {
