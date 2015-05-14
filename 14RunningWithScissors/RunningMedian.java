@@ -7,13 +7,13 @@ public class RunningMedian {
 	more = new MyHeap(false); // min heap
     }
 
-    public int getMedian() {
+    public double getMedian() {
 	if (isEmpty())
 	    throw new IllegalStateException("Median of an empty list is undefined");
 	if (less.size() > more.size())
 	    return less.get();
 	if (less.size() == more.size())
-	    return (less.get() + more.get()) / 2;
+	    return (less.get() + more.get()) / 2.0;
 	return more.get();
     }
 
@@ -32,8 +32,6 @@ public class RunningMedian {
 	    more.add(less.remove());
 	else if (e < -1)
 	    less.add(more.remove());
-	// Should never activate
-	rebalance();
     }
 
     public boolean isEmpty() {
