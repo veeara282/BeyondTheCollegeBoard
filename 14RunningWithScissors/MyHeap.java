@@ -27,7 +27,7 @@ public class MyHeap {
 	}
     }
 
-    public int get() {
+    public int peek() {
 	return values[1];
     }
 

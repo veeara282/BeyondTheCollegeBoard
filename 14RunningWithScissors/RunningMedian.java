@@ -11,10 +11,10 @@ public class RunningMedian {
 	if (isEmpty())
 	    throw new IllegalStateException("Median of an empty list is undefined");
 	if (less.size() > more.size())
-	    return less.get();
+	    return less.peek();
 	if (less.size() == more.size())
-	    return (less.get() + more.get()) / 2.0;
-	return more.get();
+	    return (less.peek() + more.peek()) / 2.0;
+	return more.peek();
     }
 
     public void add(int v) {
