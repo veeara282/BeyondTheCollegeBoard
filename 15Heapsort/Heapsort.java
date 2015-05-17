@@ -1,7 +1,7 @@
 public class Heapsort {
 
     public static void heapsort(int[] a, boolean reverse) {
-	TempHeap h = new Heap(a, reverse);
+	TempHeap h = new TempHeap(a, reverse);
 	h.sort();
     }
 
@@ -106,12 +106,12 @@ public class Heapsort {
 	    }
 
 	    public boolean hasLeft() {
-		return index * 2 + 1 <= size();
+		return index * 2 + 1 <= size;
 	    }
 
 	    public boolean hasRight() {
 		// hasRight() only if hasLeft()
-		return index * 2 + 2 <= size();
+		return index * 2 + 2 <= size;
 	    }
 
 	    public void swap(Node n) {
