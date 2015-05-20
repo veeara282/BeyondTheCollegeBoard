@@ -38,6 +38,11 @@ public class Heapsort {
 		if (n.compareTo(p) > 0) {
 		    n.swap(p);
 		}
+		// Now swap with children
+		// index of p is now i
+		while (p.hasLeft() && p.compareTo(p.getChild()) < 0) {
+		    p.swap(p.getChild());
+		}
 		// diagnostic print statement
 		Driver.print(values);
 	    }
