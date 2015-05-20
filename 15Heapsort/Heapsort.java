@@ -22,21 +22,33 @@ public class Heapsort {
 	    values = a;
 	    size = a.length;
 	    isMaxHeap = !reverse;
+
+	    // diagnostic print statement
+	    Driver.print(values);
+
 	    heapify();
+
+	    System.out.println("heapified");
 	}
 
 	private void heapify() {
 	    for (int i = size - 1; i > 0; i--) {
 		// Swap with parent ONCE per iteration. A node may be swapped more than once per method call.
 		Node n = new Node(i), p = n.getParent();
-		if (n.compareTo(p) > 0)
+		if (n.compareTo(p) > 0) {
 		    n.swap(p);
+		}
+		// diagnostic print statement
+		Driver.print(values);
 	    }
 	}
 
 	public void sort() {
-	    while (size > 0)
+	    while (size > 0) {
 		pop();
+		// diagnostic print statement
+		Driver.print(values);
+	    }
 	}
 
 	private void pop() {
@@ -83,7 +95,7 @@ public class Heapsort {
 	    }
 
 	    public Node getParent() {
-		return new Node(index >> 1);
+		return new Node(index - 1 >> 1);
 	    }
 
 	    /**
@@ -106,12 +118,12 @@ public class Heapsort {
 	    }
 
 	    public boolean hasLeft() {
-		return index * 2 + 1 <= size;
+		return index * 2 + 1 < size;
 	    }
 
 	    public boolean hasRight() {
 		// hasRight() only if hasLeft()
-		return index * 2 + 2 <= size;
+		return index * 2 + 2 < size;
 	    }
 
 	    public void swap(Node n) {

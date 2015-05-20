@@ -15,13 +15,17 @@ public class Driver {
 
 	    Heapsort.heapsort(a, reverse);
 
-	    for (int n: a) {
-		System.out.print(n + " ");
-	    }
-	    System.out.println();
+	    print(a);
 	} catch (Exception e) {
 	    System.err.println("Usage: java Driver [-r] [ints separated by spaces]");
 	}
+    }
+
+    public static void print(int[] a) {
+	for (int n: a) {
+	    System.out.print(n + " ");
+	}
+	System.out.println();
     }
 
 }
